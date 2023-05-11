@@ -9,15 +9,18 @@ import {
 } from 'class-validator';
 
 export class RegisterUserDto {
+  @Length(3)
   @IsNotEmpty()
   name: string;
+
+  @Length(3)
   @IsNotEmpty()
   lastname: string;
 
   @IsEmail()
   email: string;
 
-  @Length(3, 12)
+  @Length(6)
   password: string;
 
   @Min(1900)

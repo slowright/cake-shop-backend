@@ -12,6 +12,7 @@ import { Product } from './models/product.model';
 import { SearchModule } from './search/search.module';
 import { Like } from './models/like.model';
 import { LikeModule } from './like/like.module';
+import { ProfileModule } from './profile/profile.module';
 @Module({
   imports: [
     SequelizeModule.forRootAsync({
@@ -39,6 +40,7 @@ import { LikeModule } from './like/like.module';
     ProductModule,
     SearchModule,
     LikeModule,
+    ProfileModule,
   ],
   controllers: [],
   providers: [],
