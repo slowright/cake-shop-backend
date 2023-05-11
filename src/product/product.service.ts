@@ -40,4 +40,11 @@ export class ProductService {
     });
     return productData;
   }
+
+  async getProductById(id: string): Promise<Product> {
+    const productData = await this.productRepository.findOne({
+      where: { id },
+    });
+    return productData;
+  }
 }

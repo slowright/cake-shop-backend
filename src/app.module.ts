@@ -10,6 +10,8 @@ import { ProductModule } from './product/product.module';
 import configuration from './configuration';
 import { Product } from './models/product.model';
 import { SearchModule } from './search/search.module';
+import { Like } from './models/like.model';
+import { LikeModule } from './like/like.module';
 @Module({
   imports: [
     SequelizeModule.forRootAsync({
@@ -24,7 +26,7 @@ import { SearchModule } from './search/search.module';
         database: cfgService.get('db_name'),
         synchronize: true,
         autoLoadModels: true,
-        models: [User, Token, Product],
+        models: [User, Token, Product, Like],
       }),
     }),
     AuthModule,
@@ -36,6 +38,7 @@ import { SearchModule } from './search/search.module';
     }),
     ProductModule,
     SearchModule,
+    LikeModule,
   ],
   controllers: [],
   providers: [],

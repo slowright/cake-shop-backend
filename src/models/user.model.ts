@@ -1,27 +1,35 @@
-import { Column, DataType, HasOne, Model, Table } from 'sequelize-typescript';
+import {
+  Column,
+  DataType,
+  HasMany,
+  HasOne,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { Token } from './token.model';
+import { Like } from './like.model';
 
 @Table
 export class User extends Model {
-  @Column(DataType.TEXT)
+  @Column
   name: string;
 
-  @Column(DataType.TEXT)
+  @Column
   lastname: string;
 
-  @Column(DataType.TEXT)
+  @Column
   email: string;
 
-  @Column(DataType.TEXT)
+  @Column
   password: string;
 
-  @Column(DataType.NUMBER)
+  @Column
   year: number;
 
-  @Column(DataType.NUMBER)
+  @Column
   month: number;
 
-  @Column(DataType.NUMBER)
+  @Column
   day: number;
 
   @HasOne(() => Token, {
@@ -29,4 +37,10 @@ export class User extends Model {
     onUpdate: 'CASCADE',
   })
   token: Token;
+
+  @HasMany(() => Like, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  like: Like[];
 }

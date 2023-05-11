@@ -1,17 +1,16 @@
 import {
-  BelongsTo,
   Column,
-  DataType,
-  ForeignKey,
   Model,
   Table,
+  ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { User } from './user.model';
 
 @Table
-export class Token extends Model {
+export class Like extends Model {
   @Column
-  refreshToken: string;
+  productId: string;
 
   @ForeignKey(() => User)
   @Column

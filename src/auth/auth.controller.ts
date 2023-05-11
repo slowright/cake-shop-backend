@@ -12,10 +12,12 @@ import { RegisterUserDto } from './dto/user-register.dto';
 import { Request, Response } from 'express';
 import { LoginUserDto } from './dto/user-login.dto';
 import { JwtAuthGuard } from 'src/guards/jwt_auth.guard';
+import { SkipAuth } from 'src/decorators/public.decorator';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @SkipAuth()
   @Post('registration')
   async registerUser(@Body() dto: RegisterUserDto, @Res() res: Response) {
     const userData = await this.authService.registerUser(dto);
@@ -26,6 +28,7 @@ export class AuthController {
     res.json(userData);
   }
 
+  @SkipAuth()
   @Post('login')
   async loginUser(@Body() dto: LoginUserDto, @Res() res: Response) {
     const userData = await this.authService.loginUser(dto);
@@ -47,12 +50,7 @@ export class AuthController {
     res.json(userData);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('test')
-  test(@Req() req: Request) {
-    return req.user;
-  }
-
+  @SkipAuth()
   @Get('hello')
   hello() {
     return 'hello world';
