@@ -1,0 +1,16 @@
+import { Column, Model, Table, DataType } from 'sequelize-typescript';
+
+@Table
+export class Product extends Model {
+  @Column
+  title: string;
+
+  @Column
+  description: string;
+
+  @Column
+  category: string;
+
+  @Column
+  price: number;
+}

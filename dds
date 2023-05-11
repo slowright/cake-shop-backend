@@ -1,0 +1,23 @@
+[33mcommit b4ab56995855ad7e88f7e4a805af11593ed18210[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;32mbackend[m[33m)[m
+Author: Nikita <vfhbz94@bk.ru>
+Date:   Tue May 9 16:35:38 2023 +0300
+
+    update nodemailer
+
+[33mcommit 61593761df9ca882640f4e045f9d9d3b170f0f46[m
+Author: Nikita <vfhbz94@bk.ru>
+Date:   Tue May 9 16:11:27 2023 +0300
+
+    change files and create mailservice
+
+[33mcommit 25d9a8a2001ddfa21e05228f6d7cf231b068a579[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Nikita <vfhbz94@bk.ru>
+Date:   Tue May 9 13:28:26 2023 +0300
+
+    change cfgfile
+
+[33mcommit 3d865a653b8d344ff6cc36100b2b5f190d897394[m
+Author: Nikita <vfhbz94@bk.ru>
+Date:   Tue May 9 13:26:59 2023 +0300
+
+    first commit
