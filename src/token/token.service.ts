@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/sequelize';
 import { Token } from 'src/models/token.model';
@@ -73,10 +73,5 @@ export class TokenService {
       secret: this.cfgService.get('refresh_token'),
     });
     return userData;
-  }
-
-  decodeToken(token) {
-    const decode = this.jwtService.decode(token);
-    return decode;
   }
 }

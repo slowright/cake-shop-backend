@@ -25,4 +25,20 @@ export class UserService {
   async findUserById(id: string) {
     return await this.userRepository.findOne({ where: { id } });
   }
+
+  async changeName(id: string, name: string) {
+    return await this.userRepository.update({ name }, { where: { id } });
+  }
+
+  async changeLastName(id: string, lastName: string) {
+    return await this.userRepository.update({ lastName }, { where: { id } });
+  }
+
+  async changePassword(id: string, password: string) {
+    const hashPassword = await bcrypt.hash(password, 5);
+    return await this.userRepository.update(
+      { password: hashPassword },
+      { where: { id } },
+    );
+  }
 }
