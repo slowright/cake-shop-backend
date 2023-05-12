@@ -1,4 +1,13 @@
-import { Controller, Param, Post, Put, Query, Req, Get } from '@nestjs/common';
+import {
+  Controller,
+  Param,
+  Post,
+  Put,
+  Query,
+  Req,
+  Get,
+  Delete,
+} from '@nestjs/common';
 import { CartService } from './cart.service';
 import { Request } from 'express';
 
@@ -22,7 +31,7 @@ export class CartController {
     return this.cartService.pushProductInCart(id, token, count);
   }
 
-  @Post('/:id')
+  @Delete('/:id')
   async removeProductInCart(@Param('id') id: string, @Req() req: Request) {
     const token = req.headers.authorization;
     return this.cartService.removeProductInCart(id, token);
