@@ -52,6 +52,11 @@ export class AuthService {
     return { ...tokens, user: userDto };
   }
 
+  async logoutUser(refreshToken) {
+    await this.tokenService.deleteToken(refreshToken);
+    return;
+  }
+
   async refreshToken(token: string): Promise<ResponseUserAuth> {
     if (!token) {
       throw new UnauthorizedException();

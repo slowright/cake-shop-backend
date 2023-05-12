@@ -39,6 +39,14 @@ export class AuthController {
     res.json(userData);
   }
 
+  @Post('logout')
+  async logoutUser(@Req() req: Request, @Res() res: Response) {
+    const { refreshToken } = req.cookies;
+    await this.authService.logoutUser(refreshToken);
+    res.clearCookie('refreshToken');
+    res.sendStatus(200);
+  }
+
   @Post('refresh')
   async refreshToken(@Req() req: Request, @Res() res: Response) {
     const { token } = req.cookies;

@@ -7,7 +7,6 @@ import { SkipAuth } from 'src/decorators/public.decorator';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
-  @SkipAuth()
   @Post('show-price')
   async buyProduct(@Body() productDto: BuyProductDto, @Req() req: Request) {
     const token = req.headers.authorization;

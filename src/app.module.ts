@@ -13,6 +13,8 @@ import { SearchModule } from './search/search.module';
 import { Like } from './models/like.model';
 import { LikeModule } from './like/like.module';
 import { ProfileModule } from './profile/profile.module';
+import { CartModule } from './cart/cart.module';
+import { Cart } from './models/cart.model';
 @Module({
   imports: [
     SequelizeModule.forRootAsync({
@@ -27,7 +29,7 @@ import { ProfileModule } from './profile/profile.module';
         database: cfgService.get('db_name'),
         synchronize: true,
         autoLoadModels: true,
-        models: [User, Token, Product, Like],
+        models: [User, Token, Product, Like, Cart],
       }),
     }),
     AuthModule,
@@ -41,6 +43,7 @@ import { ProfileModule } from './profile/profile.module';
     SearchModule,
     LikeModule,
     ProfileModule,
+    CartModule,
   ],
   controllers: [],
   providers: [],

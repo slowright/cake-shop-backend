@@ -1,5 +1,5 @@
 export class BuyProductDto {
-  userId?: string;
+  userId: string;
 
   productId: string;
 
