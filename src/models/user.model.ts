@@ -8,6 +8,7 @@ import {
 } from 'sequelize-typescript';
 import { Token } from './token.model';
 import { Like } from './like.model';
+import { Cart } from './cart.model';
 
 @Table
 export class User extends Model {
@@ -43,4 +44,10 @@ export class User extends Model {
     onUpdate: 'CASCADE',
   })
   like: Like[];
+
+  @HasMany(() => Cart, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  cart: Cart[];
 }
