@@ -15,6 +15,9 @@ import { LikeModule } from './like/like.module';
 import { ProfileModule } from './profile/profile.module';
 import { CartModule } from './cart/cart.module';
 import { Cart } from './models/cart.model';
+import { RolesModule } from './roles/roles.module';
+import { Role } from './models/roles.model';
+import { UserRoles } from './models/user-roles.model';
 @Module({
   imports: [
     SequelizeModule.forRootAsync({
@@ -29,7 +32,7 @@ import { Cart } from './models/cart.model';
         database: cfgService.get('db_name'),
         synchronize: true,
         autoLoadModels: true,
-        models: [User, Token, Product, Like, Cart],
+        models: [User, Token, Product, Like, Cart, Role, UserRoles],
       }),
     }),
     AuthModule,
@@ -44,6 +47,7 @@ import { Cart } from './models/cart.model';
     LikeModule,
     ProfileModule,
     CartModule,
+    RolesModule,
   ],
   controllers: [],
   providers: [],

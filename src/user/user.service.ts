@@ -3,14 +3,18 @@ import { RegisterUserDto } from 'src/auth/dto/user-register.dto';
 import * as bcrypt from 'bcrypt';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from 'src/models/user.model';
+import { RolesService } from 'src/roles/roles.service';
+import { UserRoles } from 'src/models/user-roles.model';
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User) private readonly userRepository: typeof User,
+    @InjectModel(UserRoles) private readonly userRolesRepo: typeof UserRoles,
+    private readonly roleService: RolesService,
   ) {}
   async createUser(dto: RegisterUserDto) {
     const hashPassword = await bcrypt.hash(dto.password, 7);
-    const user = {
+    const _user = {
       name: dto.name,
       lastname: dto.lastname,
       email: dto.email,
@@ -19,11 +23,17 @@ export class UserService {
       month: dto.month,
       day: dto.day,
     };
-    return await this.userRepository.create(user);
+    const user = await this.userRepository.create(_user);
+    const role = await this.roleService.getRoleByValue('USER');
+    await user.$set('roles', [role.id]);
+    return user;
   }
 
   async findUserById(id: string) {
-    return await this.userRepository.findOne({ where: { id } });
+    return await this.userRepository.findOne({
+      where: { id },
+      include: { all: true },
+    });
   }
 
   async changeName(id: string, name: string) {
