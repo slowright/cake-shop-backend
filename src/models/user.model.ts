@@ -1,4 +1,5 @@
 import {
+  BelongsToMany,
   Column,
   DataType,
   HasMany,
@@ -9,6 +10,8 @@ import {
 import { Token } from './token.model';
 import { Like } from './like.model';
 import { Cart } from './cart.model';
+import { Role } from './roles.model';
+import { UserRoles } from './user-roles.model';
 
 @Table
 export class User extends Model {
@@ -50,4 +53,7 @@ export class User extends Model {
     onUpdate: 'CASCADE',
   })
   cart: Cart[];
+
+  @BelongsToMany(() => Role, () => UserRoles)
+  roles: Role[];
 }
