@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Put, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Put,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { ProfileService } from './profile.service';
 import {
@@ -6,10 +14,13 @@ import {
   ChangeNameDto,
   ChangePasswordDto,
 } from './dto/change.dto';
+import { RolesGuard } from 'src/guards/roles.guard';
+import { Roles } from 'src/decorators/roles-auth.decorator';
 
 @Controller('profile')
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
+
   @Get('')
   async getUserProfile(@Req() req: Request) {
     const token = req.headers.authorization;

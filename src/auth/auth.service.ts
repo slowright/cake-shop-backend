@@ -27,7 +27,8 @@ export class AuthService {
       throw new BadRequestException(
         'Пользователь с таким email уже существует!',
       );
-    const user = await this.userService.createUser(dto);
+    const _user = await this.userService.createUser(dto);
+    const user = await this.userService.findUserById(_user.id);
     const userDto = new UserTokenDto(user);
     const tokens = this.tokenService.generateTokens({ ...userDto });
     await this.tokenService.saveTokens(userDto.id, tokens.refreshToken);
@@ -46,7 +47,8 @@ export class AuthService {
     );
     if (!checkPassword)
       throw new BadRequestException('Неверный логин или пароль');
-    const userDto = new UserTokenDto(candidate);
+    const user = await this.userService.findUserById(candidate.id);
+    const userDto = new UserTokenDto(user);
     const tokens = this.tokenService.generateTokens({ ...userDto });
     await this.tokenService.saveTokens(userDto.id, tokens.refreshToken);
     return { ...tokens, user: userDto };
