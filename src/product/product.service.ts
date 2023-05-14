@@ -4,6 +4,8 @@ import { UserService } from 'src/user/user.service';
 import { TokenService } from 'src/token/token.service';
 import { InjectModel } from '@nestjs/sequelize';
 import { Product } from 'src/models/product.model';
+import { CreateProductDto } from 'src/admin/dto/create-product.dto';
+import { UpdateProductDto } from 'src/admin/dto/update-product.dto';
 
 @Injectable()
 export class ProductService {
@@ -38,6 +40,9 @@ export class ProductService {
     const productData = await this.productRepository.findAll({
       where: { category },
     });
+    if (!productData) {
+      throw new BadRequestException();
+    }
     return productData;
   }
 
@@ -45,6 +50,52 @@ export class ProductService {
     const productData = await this.productRepository.findOne({
       where: { id },
     });
+    if (!productData) {
+      throw new BadRequestException();
+    }
     return productData;
+  }
+
+  async createProduct(dto: CreateProductDto): Promise<Product> {
+    const existProduct = await this.productRepository.findOne({
+      where: { title: dto.title },
+    });
+    if (existProduct) {
+      throw new BadRequestException(
+        'Продукт с таким названием уже существует!',
+      );
+    }
+
+    const product = await this.productRepository.create({ ...dto });
+    return product;
+  }
+
+  async deleteProduct(id: string) {
+    const existProduct = await this.productRepository.findOne({
+      where: { id },
+    });
+    if (!existProduct) {
+      throw new BadRequestException('Указан неверный id продукта!');
+    }
+    return await this.productRepository.destroy({ where: { id } });
+  }
+
+  async updateProduct(dto: UpdateProductDto, id: string) {
+    const existProduct = await this.productRepository.findOne({
+      where: { id },
+    });
+    if (!existProduct) {
+      throw new BadRequestException('Указан неверный id продукта!');
+    }
+    return await this.productRepository.update(
+      {
+        title: dto.title,
+        description: dto.description,
+        category: dto.category,
+        price: dto.price,
+        link: dto.link,
+      },
+      { where: { id } },
+    );
   }
 }

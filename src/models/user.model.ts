@@ -27,6 +27,12 @@ export class User extends Model {
   @Column
   password: string;
 
+  @Column({ defaultValue: '' })
+  number: string;
+
+  @Column({ defaultValue: '' })
+  address: string;
+
   @Column
   year: number;
 

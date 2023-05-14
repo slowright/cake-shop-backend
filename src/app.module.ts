@@ -18,6 +18,7 @@ import { Cart } from './models/cart.model';
 import { RolesModule } from './roles/roles.module';
 import { Role } from './models/roles.model';
 import { UserRoles } from './models/user-roles.model';
+import { AdminModule } from './admin/admin.module';
 @Module({
   imports: [
     SequelizeModule.forRootAsync({
@@ -48,6 +49,7 @@ import { UserRoles } from './models/user-roles.model';
     ProfileModule,
     CartModule,
     RolesModule,
+    AdminModule,
   ],
   controllers: [],
   providers: [],
