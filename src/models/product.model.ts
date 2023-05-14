@@ -13,4 +13,7 @@ export class Product extends Model {
 
   @Column
   price: number;
+
+  @Column
+  link: string;
 }

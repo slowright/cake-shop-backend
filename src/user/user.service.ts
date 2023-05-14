@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from 'src/models/user.model';
 import { RolesService } from 'src/roles/roles.service';
+import { ChangeDto } from 'src/profile/dto/change.dto';
 @Injectable()
 export class UserService {
   constructor(
@@ -35,18 +36,17 @@ export class UserService {
     });
   }
 
-  async changeName(id: string, name: string) {
-    return await this.userRepository.update({ name }, { where: { id } });
-  }
-
-  async changeLastName(id: string, lastName: string) {
-    return await this.userRepository.update({ lastName }, { where: { id } });
-  }
-
-  async changePassword(id: string, password: string) {
-    const hashPassword = await bcrypt.hash(password, 5);
+  async changeOptions(id: string, dto: ChangeDto) {
+    const hash = await bcrypt.hash(dto.password, 5);
     return await this.userRepository.update(
-      { password: hashPassword },
+      {
+        name: dto.name,
+        lastname: dto.lastname,
+        email: dto.email,
+        password: hash,
+        number: dto.number,
+        address: dto.address,
+      },
       { where: { id } },
     );
   }
