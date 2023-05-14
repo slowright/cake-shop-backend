@@ -10,7 +10,7 @@ import { User } from './user.model';
 
 @Table
 export class Token extends Model {
-  @Column
+  @Column(DataType.STRING(512))
   refreshToken: string;
 
   @ForeignKey(() => User)

@@ -1,15 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { RegisterUserDto } from 'src/auth/dto/user-register.dto';
 import * as bcrypt from 'bcrypt';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from 'src/models/user.model';
 import { RolesService } from 'src/roles/roles.service';
-import { UserRoles } from 'src/models/user-roles.model';
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User) private readonly userRepository: typeof User,
-    @InjectModel(UserRoles) private readonly userRolesRepo: typeof UserRoles,
+    @Inject(forwardRef(() => RolesService))
     private readonly roleService: RolesService,
   ) {}
   async createUser(dto: RegisterUserDto) {
