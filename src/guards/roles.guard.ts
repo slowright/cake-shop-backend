@@ -5,7 +5,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { JwtService } from '@nestjs/jwt';
 import { ROLES_KEY } from 'src/decorators/roles-auth.decorator';
 import { TokenService } from 'src/token/token.service';
 @Injectable()
