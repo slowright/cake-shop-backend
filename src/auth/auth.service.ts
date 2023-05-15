@@ -27,8 +27,7 @@ export class AuthService {
       throw new BadRequestException(
         'Пользователь с таким email уже существует!',
       );
-    const _user = await this.userService.createUser(dto);
-    const user = await this.userService.findUserById(_user.id);
+    const user = await this.userService.createUser(dto);
     const userDto = new UserTokenDto(user);
     const tokens = this.tokenService.generateTokens({ ...userDto });
     await this.tokenService.saveTokens(userDto.id, tokens.refreshToken);
