@@ -4,8 +4,8 @@ import { UserService } from 'src/user/user.service';
 import { TokenService } from 'src/token/token.service';
 import { InjectModel } from '@nestjs/sequelize';
 import { Product } from 'src/models/product.model';
-import { CreateProductDto } from 'src/admin/dto/create-product.dto';
-import { UpdateProductDto } from 'src/admin/dto/update-product.dto';
+import { UpdateProductDto } from 'src/roles/dto/update-product.dto';
+import { CreateProductDto } from 'src/roles/dto/create-product.dto';
 
 @Injectable()
 export class ProductService {
