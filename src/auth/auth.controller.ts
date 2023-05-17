@@ -44,7 +44,6 @@ export class AuthController {
     const { refreshToken } = req.cookies;
     await this.authService.logoutUser(refreshToken);
     res.clearCookie('refreshToken');
-    res.sendStatus(200);
   }
 
   @Post('refresh')
