@@ -8,9 +8,11 @@ async function bootstrap() {
     origin: 'http://localhost:3000',
     credentials: true,
     allowedHeaders: 'Content-type',
+    exposedHeaders: 'X-Uid, X-Authentication',
   });
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
+
   await app.listen(3000, () => {
     console.log('Server has been started');
   });
