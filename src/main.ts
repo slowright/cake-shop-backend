@@ -7,11 +7,9 @@ async function bootstrap() {
   app.enableCors({
     origin: 'http://localhost:3000',
     credentials: true,
-    allowedHeaders:
-      'X-Uid, X-Authentication, Authorization, Origin, X-Requested-With, Accept, X-PINGOTHER, Content-Type',
+    allowedHeaders: '*',
     methods: 'POST, GET, PUT, PATCH, DELETE',
-    exposedHeaders:
-      'X-Uid, X-Authentication, Authorization, Origin, X-Requested-With, Accept, X-PINGOTHER, Content-Type',
+    exposedHeaders: 'X-Uid, X-Authentication',
   });
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());

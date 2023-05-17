@@ -4,7 +4,6 @@
   "description": "",
   "author": "",
   "private": true,
-  "proxy": "http://localhost:3000/",
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
