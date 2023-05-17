@@ -9,7 +9,8 @@ async function bootstrap() {
     credentials: true,
     allowedHeaders: '*',
     methods: 'POST, GET, PUT, PATCH, DELETE',
-    exposedHeaders: 'X-Uid, X-Authentication',
+    exposedHeaders:
+      'X-Uid, X-Authentication, Authorization, Origin, X-Requested-With, Accept, X-PINGOTHER, Content-Type',
   });
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
