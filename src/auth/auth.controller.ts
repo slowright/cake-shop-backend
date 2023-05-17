@@ -45,6 +45,7 @@ export class AuthController {
     console.log('REFRESH TOKEN::: ' + refreshToken);
     await this.authService.logoutUser(refreshToken);
     res.clearCookie('refreshToken');
+    res.sendStatus(204);
   }
 
   @Post('refresh')
