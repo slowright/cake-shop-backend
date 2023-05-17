@@ -18,7 +18,6 @@ import { Cart } from './models/cart.model';
 import { RolesModule } from './roles/roles.module';
 import { Role } from './models/roles.model';
 import { UserRoles } from './models/user-roles.model';
-import { setHeadersMiddleware } from './middlewares/headers.middleware';
 @Module({
   imports: [
     SequelizeModule.forRootAsync({
@@ -53,8 +52,4 @@ import { setHeadersMiddleware } from './middlewares/headers.middleware';
   controllers: [],
   providers: [],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(setHeadersMiddleware).forRoutes('*');
-  }
-}
+export class AppModule {}

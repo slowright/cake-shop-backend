@@ -8,17 +8,12 @@ import { TokenModule } from 'src/token/token.module';
 import { JwtStrategy } from 'src/strategy/jwt.strategy';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from 'src/guards/jwt_auth.guard';
-import { CookieAuthGuard } from 'src/guards/cookie_auth.guard';
 
 @Module({
   imports: [SequelizeModule.forFeature([User]), UserModule, TokenModule],
   providers: [
     AuthService,
     JwtStrategy,
-    {
-      provide: APP_GUARD,
-      useClass: CookieAuthGuard,
-    },
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,

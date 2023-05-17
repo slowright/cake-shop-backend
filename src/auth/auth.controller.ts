@@ -13,7 +13,6 @@ import { Request, Response } from 'express';
 import { LoginUserDto } from './dto/user-login.dto';
 import { JwtAuthGuard } from 'src/guards/jwt_auth.guard';
 import { SkipAuth } from 'src/decorators/public.decorator';
-import { CookieAuthGuard } from 'src/guards/cookie_auth.guard';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
