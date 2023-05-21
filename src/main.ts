@@ -14,7 +14,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
 
-  await app.listen(3000, () => {
+  await app.listen(5000, () => {
     console.log('Server has been started');
   });
 }

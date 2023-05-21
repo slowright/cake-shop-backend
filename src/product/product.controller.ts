@@ -8,6 +8,9 @@ import {
   UseGuards,
   Delete,
   Put,
+  UploadedFile,
+  UseInterceptors,
+  UploadedFiles,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { BuyProductDto } from './dto/buy-product.dto';
@@ -17,6 +20,7 @@ import { Roles } from 'src/decorators/roles-auth.decorator';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { CreateProductDto } from 'src/roles/dto/create-product.dto';
 import { UpdateProductDto } from 'src/roles/dto/update-product.dto';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
@@ -36,8 +40,12 @@ export class ProductController {
   @Roles('ADMIN')
   @UseGuards(RolesGuard)
   @Post('create')
-  createProduct(@Body() dto: CreateProductDto) {
-    return this.productService.createProduct(dto);
+  @UseInterceptors(
+    FileFieldsInterceptor([{ name: 'productAvatar', maxCount: 1 }]),
+  )
+  createProduct(@Body() dto: CreateProductDto, @UploadedFiles() files) {
+    const { productAvatar } = files;
+    return this.productService.createProduct(dto, productAvatar[0]);
   }
 
   @Roles('ADMIN')

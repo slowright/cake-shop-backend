@@ -18,8 +18,12 @@ import { Cart } from './models/cart.model';
 import { RolesModule } from './roles/roles.module';
 import { Role } from './models/roles.model';
 import { UserRoles } from './models/user-roles.model';
+import { FilesModule } from './files/files.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 @Module({
   imports: [
+    ServeStaticModule.forRoot({ rootPath: path.resolve(__dirname, 'static') }),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -48,6 +52,7 @@ import { UserRoles } from './models/user-roles.model';
     ProfileModule,
     CartModule,
     RolesModule,
+    FilesModule,
   ],
   controllers: [],
   providers: [],

@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Product } from 'src/models/product.model';
 import { UpdateProductDto } from 'src/roles/dto/update-product.dto';
 import { CreateProductDto } from 'src/roles/dto/create-product.dto';
+import { FilesService } from 'src/files/files.service';
 
 @Injectable()
 export class ProductService {
@@ -13,6 +14,7 @@ export class ProductService {
     @InjectModel(Product) private readonly productRepository: typeof Product,
     private readonly userService: UserService,
     private readonly tokenService: TokenService,
+    private readonly fileService: FilesService,
   ) {}
 
   async buyProduct(token: string, productDto: BuyProductDto): Promise<Number> {
@@ -56,17 +58,19 @@ export class ProductService {
     return productData;
   }
 
-  async createProduct(dto: CreateProductDto): Promise<Product> {
+  async createProduct(dto: CreateProductDto, image: any): Promise<Product> {
     const existProduct = await this.productRepository.findOne({
       where: { title: dto.title },
     });
-    if (existProduct) {
+    if (existProduct)
       throw new BadRequestException(
         'Продукт с таким названием уже существует!',
       );
-    }
-
-    const product = await this.productRepository.create({ ...dto });
+    const fileName = await this.fileService.createFile(image);
+    const product = await this.productRepository.create({
+      ...dto,
+      link: fileName,
+    });
     return product;
   }
 
@@ -77,6 +81,7 @@ export class ProductService {
     if (!existProduct) {
       throw new BadRequestException('Указан неверный id продукта!');
     }
+    await this.fileService.removeFile(existProduct.link);
     return await this.productRepository.destroy({ where: { id } });
   }
 
