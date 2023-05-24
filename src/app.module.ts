@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './models/user.model';
@@ -9,7 +9,6 @@ import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import configuration from './configuration';
 import { Product } from './models/product.model';
-import { SearchModule } from './search/search.module';
 import { Like } from './models/like.model';
 import { LikeModule } from './like/like.module';
 import { ProfileModule } from './profile/profile.module';
@@ -23,7 +22,9 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'path';
 @Module({
   imports: [
-    ServeStaticModule.forRoot({ rootPath: path.resolve(__dirname, 'static') }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: path.resolve(__dirname, 'static', 'products'),
+    // }),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -47,7 +48,6 @@ import * as path from 'path';
       load: [configuration],
     }),
     ProductModule,
-    SearchModule,
     LikeModule,
     ProfileModule,
     CartModule,

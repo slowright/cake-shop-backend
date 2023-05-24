@@ -38,14 +38,37 @@ export class ProductService {
     return Number(productDto.count) * Number(productDto.productId) * 0.97;
   }
 
-  async getProductByCategory(category: string): Promise<Product[]> {
+  async getProductByGroup(group: string): Promise<Product[]> {
     const productData = await this.productRepository.findAll({
-      where: { category },
+      where: { group },
     });
     if (!productData) {
       throw new BadRequestException();
     }
     return productData;
+  }
+
+  async getProduct(
+    group: string,
+    category: string,
+    title: string,
+  ): Promise<Product[]> {
+    if (!title && !category) {
+      return await this.getProductByGroup(group);
+    }
+    if (category && !title) {
+      const products = await this.getProductByGroup(group);
+      products.filter((product) => {
+        product.category === category;
+      });
+      return products;
+    }
+
+    const products = await this.getProductByGroup(group);
+    products.filter((product) => {
+      product.title === title;
+    });
+    return products;
   }
 
   async getProductById(id: string): Promise<Product> {

@@ -8,7 +8,7 @@ export class FilesService {
     try {
       const fileExtension = file.originalname.split('.').pop();
       const fileName = uuid.v4() + '.' + fileExtension;
-      const filePath = path.resolve(__dirname, '..', 'static');
+      const filePath = path.resolve(__dirname, '..', 'static', 'products');
       if (!fs.existsSync(filePath)) {
         fs.mkdirSync(filePath, { recursive: true });
       }
@@ -21,7 +21,13 @@ export class FilesService {
 
   async removeFile(fileName) {
     try {
-      const filePath = path.resolve(__dirname, '..', 'static', fileName);
+      const filePath = path.resolve(
+        __dirname,
+        '..',
+        'static',
+        'products',
+        fileName,
+      );
       fs.unlinkSync(filePath);
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);

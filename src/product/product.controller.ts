@@ -11,6 +11,7 @@ import {
   UploadedFile,
   UseInterceptors,
   UploadedFiles,
+  Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { BuyProductDto } from './dto/buy-product.dto';
@@ -32,9 +33,13 @@ export class ProductController {
   }
 
   @SkipAuth()
-  @Get(':category')
-  async getProductByCategory(@Param('category') category: string) {
-    return this.productService.getProductByCategory(category);
+  @Get('/:group?category&?title')
+  async getProductByCategory(
+    @Param('group') group: string,
+    @Query('category') category: string,
+    @Query('title') title: string,
+  ) {
+    return this.productService.getProduct(group, category, title);
   }
 
   @Roles('ADMIN')

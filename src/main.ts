@@ -5,7 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: true,
+    origin: 'https://localhost:3000',
     credentials: true,
     allowedHeaders: ['Authorization', 'Content-type'],
     methods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'],
@@ -14,7 +14,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
 
-  await app.listen(5000, () => {
+  await app.listen(3000, () => {
     console.log('Server has been started');
   });
 }
