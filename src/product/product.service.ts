@@ -6,7 +6,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Product } from 'src/models/product.model';
 import { UpdateProductDto } from 'src/roles/dto/update-product.dto';
 import { CreateProductDto } from 'src/roles/dto/create-product.dto';
-import { FilesService } from 'src/files/files.service';
+import { FileType, FilesService } from 'src/files/files.service';
 
 @Injectable()
 export class ProductService {
@@ -38,9 +38,11 @@ export class ProductService {
     return Number(productDto.count) * Number(productDto.productId) * 0.97;
   }
 
-  async getProductByGroup(group: string): Promise<Product[]> {
+  async getProductByGroup(group, limit, offset): Promise<Product[]> {
     const productData = await this.productRepository.findAll({
       where: { group },
+      offset,
+      limit,
     });
     if (!productData) {
       throw new BadRequestException();
@@ -52,19 +54,21 @@ export class ProductService {
     group: string,
     category: string,
     title: string,
+    count: number = 10,
+    offset: number = 0,
   ): Promise<Product[]> {
     if (!title && !category) {
-      return await this.getProductByGroup(group);
+      return await this.getProductByGroup(group, count, offset);
     }
     if (category && !title) {
-      const products = await this.getProductByGroup(group);
+      const products = await this.getProductByGroup(group, count, offset);
       products.filter((product) => {
         product.category === category;
       });
       return products;
     }
 
-    const products = await this.getProductByGroup(group);
+    const products = await this.getProductByGroup(group, count, offset);
     products.filter((product) => {
       product.title === title;
     });
@@ -81,7 +85,7 @@ export class ProductService {
     return productData;
   }
 
-  async createProduct(dto: CreateProductDto, image: any): Promise<Product> {
+  async createProduct(dto: CreateProductDto): Promise<Product> {
     const existProduct = await this.productRepository.findOne({
       where: { title: dto.title },
     });
@@ -89,10 +93,8 @@ export class ProductService {
       throw new BadRequestException(
         'Продукт с таким названием уже существует!',
       );
-    const fileName = await this.fileService.createFile(image);
     const product = await this.productRepository.create({
       ...dto,
-      link: fileName,
     });
     return product;
   }
@@ -104,7 +106,7 @@ export class ProductService {
     if (!existProduct) {
       throw new BadRequestException('Указан неверный id продукта!');
     }
-    await this.fileService.removeFile(existProduct.link);
+    await this.fileService.removeFile(FileType.IMAGE, existProduct.link);
     return await this.productRepository.destroy({ where: { id } });
   }
 

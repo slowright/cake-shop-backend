@@ -21,10 +21,17 @@ import { Roles } from 'src/decorators/roles-auth.decorator';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { CreateProductDto } from 'src/roles/dto/create-product.dto';
 import { UpdateProductDto } from 'src/roles/dto/update-product.dto';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import {
+  FileFieldsInterceptor,
+  FileInterceptor,
+} from '@nestjs/platform-express';
+import { FileType, FilesService } from 'src/files/files.service';
 @Controller('product')
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(
+    private readonly productService: ProductService,
+    private readonly fileService: FilesService,
+  ) {}
 
   @Post('show-price')
   async buyProduct(@Body() productDto: BuyProductDto, @Req() req: Request) {
@@ -38,19 +45,31 @@ export class ProductController {
     @Param('group') group: string,
     @Query('category') category: string,
     @Query('title') title: string,
+    @Query('count') count: number,
+    @Query('offset') offset: number,
   ) {
-    return this.productService.getProduct(group, category, title);
+    return this.productService.getProduct(
+      group,
+      category,
+      title,
+      count,
+      offset,
+    );
   }
 
   @Roles('ADMIN')
   @UseGuards(RolesGuard)
   @Post('create')
-  @UseInterceptors(
-    FileFieldsInterceptor([{ name: 'productAvatar', maxCount: 1 }]),
-  )
-  createProduct(@Body() dto: CreateProductDto, @UploadedFiles() files) {
-    const { productAvatar } = files;
-    return this.productService.createProduct(dto, productAvatar[0]);
+  createProduct(@Body() dto: CreateProductDto) {
+    console.log(dto);
+    return this.productService.createProduct(dto);
+  }
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
+  @Post('create-photo')
+  @UseInterceptors(FileInterceptor('image'))
+  createProductPhoto(@UploadedFile() image: Express.Multer.File) {
+    return this.fileService.createFile(FileType.IMAGE, image);
   }
 
   @Roles('ADMIN')

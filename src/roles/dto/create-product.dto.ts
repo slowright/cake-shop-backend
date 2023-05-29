@@ -8,4 +8,6 @@ export class CreateProductDto {
   category: string;
 
   price: number;
+
+  link: string;
 }
