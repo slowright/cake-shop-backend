@@ -12,6 +12,10 @@ async function bootstrap() {
     exposedHeaders: ['X-Uid', 'X-Authentication'],
   });
   app.useGlobalPipes(new ValidationPipe());
+  app.use((res, req, next) => {
+    res.header('X-Requested-With', 'XMLHttpRequest');
+    next();
+  });
   app.use(cookieParser());
 
   await app.listen(3000, () => {
