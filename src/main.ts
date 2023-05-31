@@ -7,14 +7,19 @@ async function bootstrap() {
   app.enableCors({
     origin: ['https://localhost:3000', 'http://localhost:5173'],
     credentials: true,
-    allowedHeaders: ['Authorization', 'Content-type'],
+    allowedHeaders: [
+      'Origin',
+      'Content-Type',
+      'Accept',
+      'Authorization',
+      'X-Request-With',
+    ],
     methods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'],
     exposedHeaders: ['X-Uid', 'X-Authentication'],
   });
   app.useGlobalPipes(new ValidationPipe());
   app.use((res, req, next) => {
     res.header('X-Requested-With', 'XMLHttpRequest');
-    next();
   });
   app.use(cookieParser());
 
